@@ -1,4 +1,15 @@
-# ☁️ FinOps AI: OpenEnv for Cloud Cost Optimization
+---
+title: FinOps Cloud Cost Optimizer
+emoji: ☁️
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+tags:
+  - openenv
+  - reinforcement-learning
+---
+# ☁️ FinOps AI: OpenEnv for Cloud Cost Optimizer
 
 ## Environment Description & Motivation
 Cloud computing bills are notoriously complex and inflated. FinOps (Financial Operations) teams spend countless hours trying to identify zombie resources (unattached storage), idle compute instances, and over-provisioned servers. 
