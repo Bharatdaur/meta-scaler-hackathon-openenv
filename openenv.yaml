@@ -1,0 +1,20 @@
+name: "FinOps-CloudCostOptimizer"
+version: "1.0.0"
+description: "A real-world OpenEnv for training and evaluating agents on cloud infrastructure cost optimization (FinOps). Agents must reduce cloud bills by deleting zombie volumes, stopping idle instances, and right-sizing underutilized instances without degrading performance."
+domain: "finops"
+tags:
+  - cloud
+  - finops
+  - cost
+  - optimization
+  - realistic
+tasks:
+  - id: "easy"
+    description: "Identify and delete unattached storage volumes to reduce cost."
+  - id: "medium"
+    description: "Identify completely idle compute instances, terminate them, and clean up their associated volumes."
+  - id: "hard"
+    description: "Complex mixed environment. Right-size over-provisioned instances by selecting appropriate cheaper instances without falling below the required system workload threshold, while cleaning up all idle resources."
+observation_model: "models.Observation"
+action_model: "models.Action"
+reward_model: "models.Reward"
