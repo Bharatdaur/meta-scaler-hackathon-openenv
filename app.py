@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from typing import Optional
 from env import FinOpsEnv
 from models import Action
 import os
@@ -15,9 +16,10 @@ def read_root():
     return {"status": "ok", "message": "FinOps OpenEnv API is running on Hugging Face Spaces!"}
 
 @app.post("/reset")
-def reset_environment(req: ResetRequest):
+def reset_environment(req: Optional[ResetRequest] = None):
     try:
-        obs = env.reset(req.task_id)
+        task_id = req.task_id if req else "easy"
+        obs = env.reset(task_id)
         return obs
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

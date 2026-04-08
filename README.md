@@ -46,7 +46,7 @@ It perfectly satisfies the criteria of "genuine real-world task" because right-s
 2.  **Evaluate Baseline Script:**
     ```bash
     export OPENAI_API_KEY="your-key"
-    python baseline.py
+    python inference.py
     ```
 
 ## HF Spaces Container
