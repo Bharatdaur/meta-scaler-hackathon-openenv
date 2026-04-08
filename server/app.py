@@ -1,0 +1,55 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from typing import Optional
+from env import FinOpsEnv
+from models import Action
+
+app = FastAPI(title="FinOps AI Environment API", description="OpenEnv server for Cloud Cost Optimization")
+env = FinOpsEnv()
+
+class ResetRequest(BaseModel):
+    task_id: str = "easy"
+
+@app.get("/")
+def read_root():
+    return {"status": "ok", "message": "FinOps OpenEnv API is running on Hugging Face Spaces!"}
+
+@app.post("/reset")
+def reset_environment(req: Optional[ResetRequest] = None):
+    try:
+        task_id = req.task_id if req else "easy"
+        obs = env.reset(task_id)
+        return obs
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/step")
+def step_environment(action: Action):
+    if env._state is None:
+        raise HTTPException(status_code=400, detail="Environment not reset. Call /reset first.")
+    
+    obs, reward, done, info = env.step(action)
+    return {
+        "observation": obs,
+        "reward": reward,
+        "done": done,
+        "info": info
+    }
+
+@app.get("/state")
+def get_state():
+    if env._state is None:
+         raise HTTPException(status_code=400, detail="Environment not reset. Call /reset first.")
+    return env.state()
+
+# Provide an entry point for HF Spaces
+def start_server():
+    import uvicorn
+    uvicorn.run("app:app", host="0.0.0.0", port=7860)
+
+if __name__ == "__main__":
+    start_server()
